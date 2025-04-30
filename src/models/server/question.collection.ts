@@ -32,4 +32,6 @@ export default async function createQuestionCollection() {
         databases.createIndex(db, questionCollection, "title", IndexType.Fulltext, ["title"], ["asc"]),
         databases.createIndex(db, questionCollection, "content", IndexType.Fulltext, ["content"], ["asc"]),
     ])
+
+    console.log("Question indexes created");
 }
