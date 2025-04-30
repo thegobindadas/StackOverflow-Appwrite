@@ -4,7 +4,7 @@ import { databases } from "./config";
 
 
 
-export default async function createAnswerCollection() {
+export default async function createVoteCollection() {
     
     await databases.createCollection(db, voteCollection, "comments", [
         Permission.read("any"),
