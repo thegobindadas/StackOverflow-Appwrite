@@ -1,0 +1,62 @@
+import { answerCollection, db } from "@/models/name";
+import { databases, users } from "@/models/server/config";
+import { NextRequest, NextResponse } from "next/server";
+import { ID } from "node-appwrite";
+import { UserPrefs } from "@/store/Auth";
+
+
+export async function POST (request: NextRequest) {
+    try {
+
+        const { questionId, answer, authorId } = await request.json();
+
+        if (!answer || !questionId || !authorId) {
+            return NextResponse.json(
+                {
+                    error: "Please fill out all fields.",
+                },
+                {
+                    status: 400
+                }
+            )
+        }
+
+
+        const response = await databases.createDocument(db, answerCollection, ID.unique(), {
+            content: answer,
+            questionId,
+            authorId
+        })
+
+
+        const prefs = await users.getPrefs<UserPrefs>(authorId)
+
+        await users.updatePrefs(authorId, {
+            reputation: Number(prefs.reputation) + 1
+        })
+
+
+
+        return NextResponse.json(
+            {
+                success: true,
+                data: response
+            },
+            {
+                status: 200
+            }
+        )
+
+    } catch (error: any) {
+        return NextResponse.json(
+            {
+                error: error?.message || "An error occurred while creating the answer.",
+            },
+            {
+                status: error?.status || error?.code || 500
+            }
+        )
+    }
+}
+
+
