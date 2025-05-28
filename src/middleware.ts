@@ -8,13 +8,13 @@ import getOrCreateStroage from './models/server/storage.collection';
 
 export async function middleware(request: NextRequest) {
 
-    await Promise.all([
-        getOrCreateDB(),
-        getOrCreateStroage()
-    ])
+  await Promise.all([
+    getOrCreateDB(),
+    getOrCreateStroage()
+  ])
 
 
-    return NextResponse.next()
+  return NextResponse.next()
 }
 
 
