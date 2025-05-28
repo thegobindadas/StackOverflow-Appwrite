@@ -60,3 +60,54 @@ export async function POST (request: NextRequest) {
 }
 
 
+export async function DELETE (request: NextRequest) {
+    try {
+
+        const { answerId } = await request.json();
+
+        if (!answerId) {
+            return NextResponse.json(
+                {
+                    error: "Answer id is required.",
+                },
+                {
+                    status: 400
+                }
+            )
+        }
+
+
+        const answer = await databases.getDocument(db, answerCollection, answerId);
+
+        const deleteResponse = await databases.deleteDocument(db, answerCollection, answerId);
+
+
+        const prefs = await users.getPrefs<UserPrefs>(answer.authorId)
+
+        await users.updatePrefs(answer.authorId, {
+            reputation: Number(prefs.reputation) - 1
+        })
+
+
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Answer deleted successfully."
+            },
+            {
+                status: 200
+            }
+        )
+
+    } catch (error: any) {
+        return NextResponse.json(
+            {
+                error: error?.message || "An error occurred while deleting the answer.",
+            },
+            {
+                status: error?.status || error?.code || 500
+            }
+        )
+    }
+}
