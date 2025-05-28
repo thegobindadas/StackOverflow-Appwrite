@@ -45,8 +45,8 @@ function RegisterPage() {
 
         try {
             const formData = new FormData(e.currentTarget);
-            const firstName = formData.get("firstName");
-            const lastName = formData.get("lastName");
+            const firstName = formData.get("firstname");
+            const lastName = formData.get("lastname");
             const email = formData.get("email");
             const password = formData.get("password");
 
