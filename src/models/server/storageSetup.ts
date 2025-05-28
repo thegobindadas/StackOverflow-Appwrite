@@ -29,7 +29,6 @@ export default async function getOrCreateStroage() {
             console.log("Storage bucket created");
             console.log("Storage bucket connected");
             
-            
         } catch (error) {
             console.error("Error creating bucket: ", error);
         }
