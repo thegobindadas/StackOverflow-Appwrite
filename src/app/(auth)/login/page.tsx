@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect} from "react";
 import { useAuthStore } from "@/store/Auth";
-
 import { AppwriteException } from "appwrite";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
+
 
 const BottomGradient = () => {
     return (
@@ -18,6 +18,7 @@ const BottomGradient = () => {
         </>
     );
 };
+
 
 const LabelInputContainer = ({
     children,
@@ -29,14 +30,14 @@ const LabelInputContainer = ({
     return <div className={cn("flex w-full flex-col space-y-2", className)}>{children}</div>;
 };
 
-export default function Login() {
+
+
+export default function LoginPage() {
 
     const { login } = useAuthStore();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-
-
 
 
     const togglePasswordVisibility = () => {
@@ -51,8 +52,8 @@ export default function Login() {
 
         try {
             const formData = new FormData(e.currentTarget);
-            const email = formData.get("email")?.toString().trim();;
-            const password = formData.get("password")?.toString().trim();;
+            const email = formData.get("email")?.toString().trim();
+            const password = formData.get("password")?.toString().trim();
 
             if (!email || !password) {
                 setError(() => "Please fill out all fields.");
